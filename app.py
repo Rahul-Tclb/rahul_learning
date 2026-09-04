@@ -8,5 +8,11 @@ app = FastAPI(
     version="1.0.0",
 )
 
+@app.get("/")
+async def root():
+    return {"message": "API is running", "docs": "/docs", "health": "/api/v1/healthcheck"}
+
+app.include_router(api_router)
+
 # Router assignment
 app.include_router(api_router)
