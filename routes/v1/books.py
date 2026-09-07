@@ -56,13 +56,18 @@ async def create_book(book: dict = Body(...)):
     BOOKS.append(book)
     return book
 
-# @router.put("/books")
-# async def update_book(book: dict = Body(...)):
-#     for i, b in enumerate(BOOKS):
-#         if b["title"].casefold() == book["title"].casefold():
-#             BOOKS[i] = book
-#             return book
-#     return {"data": "Not Found"}
+
+"""
+used to update data
+"""
+
+@router.put("/books")
+async def update_book(book: dict = Body(...)):
+    for i, b in enumerate(BOOKS):
+        if b["title"].casefold() == book["title"].casefold():
+            BOOKS[i] = book
+            return book
+    return {"data": "Not Found"}
 
 # @router.delete("/books/{book_title}")
 # async def delete_book(book_title: str):
