@@ -46,10 +46,15 @@ async def read_books_by_category(category: str):
 #         and b["category"].casefold() == category.casefold()
 #     ]
 
-# @router.post("/books")
-# async def create_book(book: dict = Body(...)):
-#     BOOKS.append(book)
-#     return book
+
+"""
+used to create data 
+post can have a body that has additional information
+"""
+@router.post("/books")
+async def create_book(book: dict = Body(...)):
+    BOOKS.append(book)
+    return book
 
 # @router.put("/books")
 # async def update_book(book: dict = Body(...)):
