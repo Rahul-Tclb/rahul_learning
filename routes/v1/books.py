@@ -19,9 +19,8 @@ async def read_all_books():
     return BOOKS
 
 """
-path parameters are used to get a specific book by title
+path parameters request parameters that have been attachd to the URL
 """
-
 @router.get("/books/title/{book_title}")
 async def read_book(book_title: str):
     for book in BOOKS:
@@ -29,9 +28,15 @@ async def read_book(book_title: str):
             return book
     return {"data": "Not Found"}
 
-# @router.get("/books/by-category")
-# async def read_books_by_category(category: str):
-#     return [b for b in BOOKS if b["category"].casefold() == category.casefold()]
+
+"""
+query parameters are requested that have been attached after a ?
+"""
+
+@router.get("/books/by-category")
+async def read_books_by_category(category: str):
+    return [b for b in BOOKS if b["category"].casefold() == category.casefold()]
+
 
 # @router.get("/books/by-author-category")
 # async def read_books_by_author_category(author: str, category: str):
