@@ -11,7 +11,7 @@ BOOKS = [
     {"title": "Title Six", "author": "Author Two", "category": "math"},
 ]
 
-@router.get("/books")
+@router.get("/books_endpoint")
 async def read_all_books():
     print("GET /books")
     return BOOKS
