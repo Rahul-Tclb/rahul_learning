@@ -69,10 +69,21 @@ async def update_book(book: dict = Body(...)):
             return book
     return {"data": "Not Found"}
 
-# @router.delete("/books/{book_title}")
-# async def delete_book(book_title: str):
-#     for i, b in enumerate(BOOKS):
-#         if b["title"].casefold() == book_title.casefold():
-#             BOOKS.pop(i)
-#             return {"data": "Deleted"}
-#     return {"data": "Not Found"}
+
+
+""" used to delete  data 
+"""
+@router.delete("/books/{book_title}")
+async def delete_book(book_title: str):
+    for i, b in enumerate(BOOKS):
+        if b["title"].casefold() == book_title.casefold():
+            BOOKS.pop(i)
+            return {"data": "Deleted"}
+    return {"data": "Not Found"}
+
+
+
+
+
+
+
