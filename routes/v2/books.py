@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Body
 
-router = APIRouter()
+router_v2 = APIRouter()
 
-Books_2  = [{'1' : 'No Books created'}]
+books_v2  = [{'1' : 'No Books created'}]
 
-@router.get('/books')
+@router_v2.get('/books')
 async def get_books():
-  return Books_2
+  return books_v2

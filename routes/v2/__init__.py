@@ -2,10 +2,10 @@
 
 from fastapi import APIRouter
 from .healthcheck import router as healthcheck_router
-# from .books import router as books_router_2
+from .books import router_v2 as books_router_2
 
-# router = APIRouter()
+router = APIRouter()
 
 # Include endpoint-specific routers
 router.include_router(healthcheck_router)
-# router.include_router(books_router_2)
+router.include_router(books_router_2)
