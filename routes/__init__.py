@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 # Import routers from versioned packages
 from .v1 import router as v1_router
-from .v2 import router_v2 as v2_router
+from .v2 import router as v2_router
 
 # Create a router for the API
 api_router = APIRouter()
