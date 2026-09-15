@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from routes import api_router
+from routes import api_router_v2
 
 app = FastAPI(
     title="FastAPI & Databricks Apps",
@@ -16,3 +17,4 @@ async def root():
 
 # Router assignment
 app.include_router(api_router)
+app.include_router(api_router_v2)
