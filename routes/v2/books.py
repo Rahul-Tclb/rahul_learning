@@ -46,3 +46,9 @@ books_v2 = [
 @router_v2.get('/books')
 async def get_books():
   return books_v2
+
+
+
+async def create_book_v2(add_book = Body()):
+    books_v2.append(add_book)
+    return books_v2
