@@ -51,4 +51,4 @@ async def get_books():
 @router_v2.post('/add_book_api')
 async def create_book_v2(add_book = Body()):
     books_v2.append(add_book)
-    return books_v2
+    
