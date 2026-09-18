@@ -81,10 +81,10 @@ async def create_book_v2_pydantic(book_request : BookRequest):
 
 # write a function to auto incremet the id of the book
 def find_book_id(book: Book):
-    if len(books_v2) == 0:
-        return 1
+    if len(books_v2)> 0:
+        book.id = books_v2[-1].id + 1
     else:
-        return max(book.id for book in books_v2) + 1
+        book.id = 1
 
 # write a function to update the book
 def update_book(book_id: int, book: Book):
