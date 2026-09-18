@@ -77,5 +77,24 @@ async def read_all_books():
 async def create_book_v2_pydantic(book_request : BookRequest):
     new_book = Book(**book_request.model_dump())
     print(type(new_book))
-    books_v2.append(new_book)
+    books_v2.append(find_book_id(new_book))
+
+# write a function to auto incremet the id of the book
+def find_book_id(book: Book):
+    if len(books_v2) == 0:
+        return 1
+    else:
+        return max(book.id for book in books_v2) + 1
+
+# write a function to update the book
+def update_book(book_id: int, book: Book):
+    for i, b in enumerate(books_v2):
+        if b.id == book_id:
+            books_v2[i] = book
+            return True
+    return False
+
+# write a function to delete the book
+def delete_book(book_id: int):
+    for i, b in enumerate(books_v2):)
     
