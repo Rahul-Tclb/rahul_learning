@@ -30,10 +30,26 @@ class Book:
 class BookRequest(BaseModel):
     book_id: Optional[int] =  Field(description="Book ID" , default=None)
     # book_id: int
-    title: str = Field(min_length=5 , max_length=10)
+    title: str = Field(min_length=5 , max_length=100)
     author: str = Field(min_length= 6 , max_length=100)
     description: str = Field(min_length= 6 , max_length=100)
-    rating: int = Field(gt=0 , lt=5)
+    rating: int = Field(gt=0 , lt=50)
+
+
+    model_config = {
+
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "book_id": 1,
+                    "title": "The Hobbit",
+                    "author": "J.R.R. Tolkien",
+                    "description": "A fantasy novel about the adventures of Bilbo Baggins.",
+                    "rating": 4
+                }
+                        ]   
+                             }
+                   }
 
 
 
