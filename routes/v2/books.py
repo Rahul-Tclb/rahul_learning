@@ -63,8 +63,9 @@ books_v2 = [
 
 
 @router_v2.get('/books')
-async def get_books():
-  return books_v2
+async def read_all_books():
+    print("Reading all books")
+    return books_v2
 
 
 # @router_v2.post('/add_book_api')
