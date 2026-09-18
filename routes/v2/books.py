@@ -73,6 +73,6 @@ async def create_book_v2(add_book= Body()):
 
 
 @router_v2.post('/add_book_with_pydantic')
-async def create_book_v2(add_book= BookRequest):
+async def create_book_v2_pydantic(add_book= BookRequest):
     books_v2.append(add_book)
     
