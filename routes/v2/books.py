@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Body
-from pydantic import BaseModel
+from pydantic import BaseModel , Field
 
 router_v2 = APIRouter()
 
@@ -27,8 +27,8 @@ class Book:
 
 
 class BookRequest(BaseModel):
-    book_id: int
-    title: str
+    book_id: int 
+    title: str = Field(min_length=5 , max_length=10)
     author: str
     description: str
     rating: float
