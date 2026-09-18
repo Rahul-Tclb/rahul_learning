@@ -73,8 +73,8 @@ async def read_all_books():
 #     books_v2.append(add_book)
 
 
-@router_v2.post('/add_book_with_pydantic')
-async def create_book_v2_pydantic(add_book= BookRequest):
+@router_v2.post('/create-book')
+async def create_book_v2_pydantic(book_request : BookRequest):
     print("Add Books with pre defined schema and pydantic rules")
-    books_v2.append(add_book)
+    books_v2.append(book_request)
     
