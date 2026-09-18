@@ -27,7 +27,7 @@ class Book:
 
 
 class BookRequest(BaseModel):
-    book_id: optional[int] =  None
+    book_id: Optional[int] =  None
     title: str = Field(min_length=5 , max_length=10)
     author: str = Field(min_length= 6 , max_length=100)
     description: str = Field(min_length= 6 , max_length=100)
