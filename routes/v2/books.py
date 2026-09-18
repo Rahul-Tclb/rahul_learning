@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Body
+from pydantic import BaseModel
 
 router_v2 = APIRouter()
 
@@ -6,7 +7,14 @@ router_v2 = APIRouter()
 
 
 class Book:
-    def __init__(self, book_id: int, title: str, author: str, description: str, rating: float):
+    def __init__(
+        self, 
+        book_id: int, 
+        title: str, 
+        author: str, 
+        description: str, 
+        rating: float
+        ):
         self.id: int = book_id
         self.title: str = title
         self.author: str = author
@@ -16,6 +24,17 @@ class Book:
     # def get_summary(self) -> str:
     #     """Returns a formatted string with the book's details."""
     #     return f"'{self.title}' by {self.author} - Rating: {self.rating}/5\nDescription: {self.description}"
+
+
+class BookRequest(BaseModel):
+    book_id: int
+    title: str
+    author: str
+    description: str
+    rating: float
+
+
+
 
 
 books_v2 = [
@@ -50,5 +69,10 @@ async def get_books():
 
 @router_v2.post('/add_book_api')
 async def create_book_v2(add_book= Body()):
+    books_v2.append(add_book)
+
+
+@router_v2.post('/add_book_with_pydantic')
+async def create_book_v2(add_book= BookRequest):
     books_v2.append(add_book)
     
