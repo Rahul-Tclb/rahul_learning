@@ -27,7 +27,7 @@ class Book:
 
 
 class BookRequest(BaseModel):
-    book_id: int 
+    book_id: optional[int] =  None
     title: str = Field(min_length=5 , max_length=10)
     author: str = Field(min_length= 6 , max_length=100)
     description: str = Field(min_length= 6 , max_length=100)
@@ -81,10 +81,11 @@ async def create_book_v2_pydantic(book_request : BookRequest):
 
 # write a function to auto incremet the id of the book
 def find_book_id(book: Book):
-    if len(books_v2)> 0:
-        book.id = books_v2[-1].id + 1
-    else:
-        book.id = 1
+    book.id = 1 if len(books_v2) == 0 else books_v2[-1].id + 1
+    # if len(books_v2)> 0:
+    #     book.id = books_v2[-1].id + 1
+    # else:
+    #     book.id = 1
     
     return book
 
