@@ -97,6 +97,15 @@ async def create_book_v2_pydantic(book_request : BookRequest):
     print(type(new_book))
     books_v2.append(find_book_id(new_book))
 
+
+
+@router_v2.get('/books/{book_id}')
+async def read_book(book_id):
+    for book in books_v2:
+        if book.id == book_id:
+            return book
+    print(f"Reading book with id {book_id}")
+
 # write a function to auto incremet the id of the book
 def find_book_id(book: Book):
     book.id = 1 if len(books_v2) == 0 else books_v2[-1].id + 1
