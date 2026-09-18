@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Body
-from pydantic import BaseModel , Field , Optional
+from pydantic import BaseModel , Field 
+# from typing import Optional
 
 router_v2 = APIRouter()
 
