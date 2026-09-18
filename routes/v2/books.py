@@ -85,16 +85,8 @@ def find_book_id(book: Book):
         book.id = books_v2[-1].id + 1
     else:
         book.id = 1
+    
+    return book
 
-# write a function to update the book
-def update_book(book_id: int, book: Book):
-    for i, b in enumerate(books_v2):
-        if b.id == book_id:
-            books_v2[i] = book
-            return True
-    return False
 
-# write a function to delete the book
-def delete_book(book_id: int):
-    for i, b in enumerate(books_v2):)
     
