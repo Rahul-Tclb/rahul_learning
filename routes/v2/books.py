@@ -100,7 +100,7 @@ async def create_book_v2_pydantic(book_request : BookRequest):
 
 
 @router_v2.get('/books/{book_id}')
-async def read_book(book_id):
+async def read_book(book_id:int):
     for book in books_v2:
         if book.id == book_id:
             return book
@@ -113,7 +113,6 @@ def find_book_id(book: Book):
     #     book.id = books_v2[-1].id + 1
     # else:
     #     book.id = 1
-    
     return book
 
 
