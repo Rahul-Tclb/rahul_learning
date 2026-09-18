@@ -29,9 +29,9 @@ class Book:
 class BookRequest(BaseModel):
     book_id: int 
     title: str = Field(min_length=5 , max_length=10)
-    author: str
-    description: str
-    rating: float
+    author: str = Field(min_length= 6 , max_length=100)
+    description: str = Field(min_length= 6 , max_length=100)
+    rating: int = Field(gt=0 , lt=5)
 
 
 
