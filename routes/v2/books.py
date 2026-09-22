@@ -61,21 +61,21 @@ books_v2 = [
         title="The Hobbit",
         author="J.R.R. Tolkien",
         description="A fantasy novel about the adventures of Bilbo Baggins.",
-        rating=4.8
+        rating=4
     ),
     Book(
         book_id=2,
         title="Harry Potter and the Sorcerer's Stone",
         author="J.K. Rowling",
         description="A young wizard discovers his magical heritage at Hogwarts.",
-        rating=4.9
+        rating=4
     ),
     Book(
         book_id=3,
         title="Percy Jackson & the Olympians: The Lightning Thief",
         author="Rick Riordan",
         description="A teenager discovers he is the son of Greek god Poseidon.",
-        rating=4.7
+        rating=4
     )
 ]
 
