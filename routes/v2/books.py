@@ -75,7 +75,7 @@ books_v2 = [
         title="Percy Jackson & the Olympians: The Lightning Thief",
         author="Rick Riordan",
         description="A teenager discovers he is the son of Greek god Poseidon.",
-        rating=4
+        rating=7
     )
 ]
 
