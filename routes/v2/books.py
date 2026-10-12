@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body, Path
+from fastapi import APIRouter, Body, Path , Query
 from pydantic import BaseModel , Field 
 from typing import Optional
 
@@ -110,7 +110,7 @@ async def read_book(book_id:int = Path(gt=0 )):
 
 
 @router_v2.get('/books/')
-async def read_book_by_rating(rating: int):
+async def read_book_by_rating(rating: int= Query(gt=0 , lt=6)):
     for book in books_v2:
         if book.rating == rating:
             return book
