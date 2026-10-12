@@ -99,7 +99,7 @@ async def read_all_books():
 
 # Add Http exception when reading a book
 @router_v2.get('/books/{book_id}')
-async def read_book(book_id:int = Path(gt=0 )):
+async def read_book_with_exception(book_id:int = Path(gt=0 )):
     for book in books_v2:
         if book.id == book_id:
             return book
