@@ -103,7 +103,7 @@ async def read_book_with_exception(book_id:int = Path(gt=0 )):
     for book in books_v2:
         if book.id == book_id:
             return book
-    raise HttpException(status_code=404 , detail=f"Book with id {book_id} not found")
+    raise HTTPException(status_code=404 , detail=f"Book with id {book_id} not found")
 
 
 @router_v2.post('/create-book')
@@ -114,14 +114,14 @@ async def create_book_v2_pydantic(book_request : BookRequest):
 
 
 
-@router_v2.get('/books/{book_id}')
-async def read_book(book_id:int = Path(gt=0 )):
-    books_to_return = []
-    for book in books_v2:
-        if book.id == book_id:
-            books_to_return.append(book)
-    return books_to_return
-    print(f"Reading book with id {book_id}")
+# @router_v2.get('/books/{book_id}')
+# async def read_book(book_id:int = Path(gt=0 )):
+#     books_to_return = []
+#     for book in books_v2:
+#         if book.id == book_id:
+#             books_to_return.append(book)
+#     return books_to_return
+#     print(f"Reading book with id {book_id}")
 
 
 @router_v2.get('/books/')
