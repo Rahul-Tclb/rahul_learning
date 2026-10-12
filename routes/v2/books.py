@@ -118,7 +118,7 @@ async def read_book_by_rating(rating: int):
 
 
 @router_v2.delete('/books/{book_id}')
-async def delete_book(book_id: int):
+async def delete_book(book_id: int = Path(gt=0 )):
     for book in books_v2:
         if book.id == book_id:
             books_v2.remove(book)
