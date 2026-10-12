@@ -132,13 +132,13 @@ async def read_book_by_rating(rating: int= Query(gt=0 , lt=6)):
     print(f"Reading book with rating {rating}")
 
 
-@router_v2.delete('/books/{book_id}')
-async def delete_book(book_id: int = Path(gt=0 )):
-    for book in books_v2:
-        if book.id == book_id:
-            books_v2.remove(book)
-            return book
-    print(f"Deleting book with id {book_id} ")
+# @router_v2.delete('/books/{book_id}')
+# async def delete_book(book_id: int = Path(gt=0 )):
+#     for book in books_v2:
+#         if book.id == book_id:
+#             books_v2.remove(book)
+#             return book
+#     print(f"Deleting book with id {book_id} ")
 
 @router_v2.get('books/publish/')
 async def read_books_by_publish_date(published_date:int= Query(gt=1999 , lt=2031)):
@@ -147,6 +147,24 @@ async def read_books_by_publish_date(published_date:int= Query(gt=1999 , lt=2031
         if book.published_date == published_date:
             published_books.append(book)
     return published_books
+
+
+@router_v2.put('/books/update_book')
+async def update_book(book: BookRequest):
+    book_changed = False
+
+    for i in range(len(books_v2)):
+        if books_v2[i].id == book.book_id:
+            books_v2[i] = book
+            book_changed = True
+            break
+
+    if not book_changed:
+        raise HTTPException(status_code=404, detail=f"Book with id {book.book_id} not found")
+
+    return book
+
+
 
 
 # write a function to auto incremet the id of the book
