@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, Path
 from pydantic import BaseModel , Field 
 from typing import Optional
 
@@ -100,7 +100,7 @@ async def create_book_v2_pydantic(book_request : BookRequest):
 
 
 @router_v2.get('/books/{book_id}')
-async def read_book(book_id:int):
+async def read_book(book_id:int = Path(gt=0 )):
     books_to_return = []
     for book in books_v2:
         if book.id == book_id:
@@ -115,6 +115,19 @@ async def read_book_by_rating(rating: int):
         if book.rating == rating:
             return book
     print(f"Reading book with rating {rating}")
+
+
+@router_v2.delete('/books/{book_id}')
+async def delete_book(book_id: int):
+    for book in books_v2:
+        if book.id == book_id:
+            books_v2.remove(book)
+            return book
+    print(f"Deleting book with id {book_id} ")
+
+
+
+
 
 # write a function to auto incremet the id of the book
 def find_book_id(book: Book):
