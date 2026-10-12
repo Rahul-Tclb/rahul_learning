@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body, Path , Query
+from fastapi import APIRouter, Body, Path , Query , HttpException
 from pydantic import BaseModel , Field 
 from typing import Optional
 
@@ -97,6 +97,14 @@ async def read_all_books():
 # async def create_book_v2(add_book= Body()):
 #     books_v2.append(add_book)
 
+# Add Http exception when reading a book
+@router_v2.get('/books/{book_id}')
+async def read_book(book_id:int = Path(gt=0 )):
+    for book in books_v2:
+        if book.id == book_id:
+            return book
+    raise HttpException(status_code=404 , detail=f"Book with id {book_id} not found")
+
 
 @router_v2.post('/create-book')
 async def create_book_v2_pydantic(book_request : BookRequest):
@@ -139,9 +147,6 @@ async def read_books_by_publish_date(published_date:int= Query(gt=1999 , lt=2031
         if book.published_date == published_date:
             published_books.append(book)
     return published_books
-
-
-
 
 
 # write a function to auto incremet the id of the book
