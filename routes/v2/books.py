@@ -162,7 +162,6 @@ async def update_book(book: BookRequest):
     if not book_changed:
         raise HTTPException(status_code=404, detail=f"Book with id {book.book_id} not found")
 
-    return book
 
 
 
