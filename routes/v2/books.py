@@ -34,6 +34,7 @@ class BookRequest(BaseModel):
     author: str = Field(min_length= 6 , max_length=100)
     description: str = Field(min_length= 6 , max_length=100)
     rating: int = Field(gt=0 , lt=50)
+    published_date: int = Field(gt=1999 , lt=2031)
 
 
     model_config = {
@@ -45,7 +46,7 @@ class BookRequest(BaseModel):
                     "title": "The Hobbit",
                     "author": "J.R.R. Tolkien",
                     "description": "A fantasy novel about the adventures of Bilbo Baggins.",
-                    "rating": 4
+                    "rating": 4, 'published_date':2029
                 }
                         ]   
                              }
@@ -61,21 +62,24 @@ books_v2 = [
         title="The Hobbit",
         author="J.R.R. Tolkien",
         description="A fantasy novel about the adventures of Bilbo Baggins.",
-        rating=4
+        rating=4 ,
+        published_date = 2029
     ),
     Book(
         book_id=2,
         title="Harry Potter and the Sorcerer's Stone",
         author="J.K. Rowling",
         description="A young wizard discovers his magical heritage at Hogwarts.",
-        rating=4
+        rating=4,
+        published_date = 2030
     ),
     Book(
         book_id=3,
         title="Percy Jackson & the Olympians: The Lightning Thief",
         author="Rick Riordan",
         description="A teenager discovers he is the son of Greek god Poseidon.",
-        rating=7
+        rating=7,
+        published_date = 2018
     )
 ]
 
@@ -124,6 +128,14 @@ async def delete_book(book_id: int = Path(gt=0 )):
             books_v2.remove(book)
             return book
     print(f"Deleting book with id {book_id} ")
+
+@router_v2.get('books/publish/')
+async def read_books_by_publish_date(published_date:int= Query(gt=1999 , lt=2031):
+    published_books = []
+    for book in books_v2:
+        if book.published_date == published_date:
+            published_books.append(book)
+    return published_books
 
 
 
