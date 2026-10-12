@@ -14,13 +14,15 @@ class Book:
         title: str, 
         author: str, 
         description: str, 
-        rating: float
+        rating: float,
+        published_date:int
         ):
         self.id: int = book_id
         self.title: str = title
         self.author: str = author
         self.description: str = description
         self.rating: float = rating
+        self.published_date: int = published_date
 
     # def get_summary(self) -> str:
     #     """Returns a formatted string with the book's details."""
@@ -46,7 +48,8 @@ class BookRequest(BaseModel):
                     "title": "The Hobbit",
                     "author": "J.R.R. Tolkien",
                     "description": "A fantasy novel about the adventures of Bilbo Baggins.",
-                    "rating": 4, 'published_date':2029
+                    "rating": 4, 
+                    'published_date':2029
                 }
                         ]   
                              }
@@ -130,7 +133,7 @@ async def delete_book(book_id: int = Path(gt=0 )):
     print(f"Deleting book with id {book_id} ")
 
 @router_v2.get('books/publish/')
-async def read_books_by_publish_date(published_date:int= Query(gt=1999 , lt=2031):
+async def read_books_by_publish_date(published_date:int= Query(gt=1999 , lt=2031)):
     published_books = []
     for book in books_v2:
         if book.published_date == published_date:
