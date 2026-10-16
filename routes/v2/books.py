@@ -157,7 +157,7 @@ async def update_book_with_exception(book: BookRequest):
         if books_v2[i].id == book.book_id:
             books_v2[i] = book
             book_changed = True
-            break
+            # break
 
     if not book_changed:
         raise HTTPException(status_code=404, detail=f"Book with id {book.book_id} not found")
