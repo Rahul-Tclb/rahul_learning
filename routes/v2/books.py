@@ -165,7 +165,19 @@ async def update_book_with_exception(book: BookRequest):
 
 
 
-# test commit
+@router_v2.delete('/books/{book_id}')
+async def delete_book_with_exception(book_id: int = Path(gt=0 )):
+    book_changed = False
+
+    for i in range(len(books_v2)):
+        if books_v2[i].id == book_id:
+            books_v2.pop(i)
+            book_changed = True
+            break
+
+    if not book_changed:
+        raise HTTPException(status_code=404, detail= 'Item {i} not found')
+    print(f"Deleting book with id {book_id} ")
 
 
 
