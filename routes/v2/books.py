@@ -150,7 +150,7 @@ async def read_books_by_publish_date(published_date:int= Query(gt=1999 , lt=2031
 
 
 @router_v2.put('/books/update_book')
-async def update_book(book: BookRequest):
+async def update_book_with_exception(book: BookRequest):
     book_changed = False
 
     for i in range(len(books_v2)):
@@ -161,6 +161,9 @@ async def update_book(book: BookRequest):
 
     if not book_changed:
         raise HTTPException(status_code=404, detail=f"Book with id {book.book_id} not found")
+
+
+
 
 # test commit
 
