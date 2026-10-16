@@ -176,7 +176,7 @@ async def delete_book_with_exception(book_id: int = Path(gt=0 )):
             break
 
     if not book_changed:
-        raise HTTPException(status_code=404, detail= 'Item {i} not found')
+        raise HTTPException(status_code=404, detail= f'Item {i} not found')
     print(f"Deleting book with id {book_id} ")
 
 
