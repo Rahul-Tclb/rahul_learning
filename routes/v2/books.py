@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Body, Path , Query , HTTPException
 from pydantic import BaseModel , Field 
 from typing import Optional
+from starlette import status
 
 router_v2 = APIRouter()
 
@@ -87,7 +88,7 @@ books_v2 = [
 ]
 
 
-@router_v2.get('/books')
+@router_v2.get('/books' , status_code=status.HTTP_200_OK)
 async def read_all_books():
     print("Reading all books")
     return books_v2
@@ -98,7 +99,7 @@ async def read_all_books():
 #     books_v2.append(add_book)
 
 # Add Http exception when reading a book
-@router_v2.get('/books/{book_id}')
+@router_v2.get('/books/{book_id}' , status_code=status.HTTP_200_OK)
 async def read_book_with_exception(book_id:int = Path(gt=0 )):
     for book in books_v2:
         if book.id == book_id:
@@ -106,7 +107,7 @@ async def read_book_with_exception(book_id:int = Path(gt=0 )):
     raise HTTPException(status_code=404 , detail=f"Book with id {book_id} not found")
 
 
-@router_v2.post('/create-book')
+@router_v2.post('/create-book' , status_code=status.HTTP_201_CREATED)
 async def create_book_v2_pydantic(book_request : BookRequest):
     new_book = Book(**book_request.model_dump())
     print(type(new_book))
@@ -125,7 +126,7 @@ async def create_book_v2_pydantic(book_request : BookRequest):
 
 
 @router_v2.get('/books/')
-async def read_book_by_rating(rating: int= Query(gt=0 , lt=6)):
+async def read_book_by_rating(rating: int= Query(gt=0 , lt=6) , status_code=status.HTTP_200_OK):
     for book in books_v2:
         if book.rating == rating:
             return book
@@ -141,7 +142,7 @@ async def read_book_by_rating(rating: int= Query(gt=0 , lt=6)):
 #     print(f"Deleting book with id {book_id} ")
 
 @router_v2.get('books/publish/')
-async def read_books_by_publish_date(published_date:int= Query(gt=1999 , lt=2031)):
+async def read_books_by_publish_date(published_date:int= Query(gt=1999 , lt=2031) ,status_code=status.HTTP_200_OK):
     published_books = []
     for book in books_v2:
         if book.published_date == published_date:
@@ -149,7 +150,7 @@ async def read_books_by_publish_date(published_date:int= Query(gt=1999 , lt=2031
     return published_books
 
 
-@router_v2.put('/books/update_book')
+@router_v2.put('/books/update_book' , status_code=status.HTTP_204_NO_CONTENT)
 async def update_book_with_exception(book: BookRequest):
     book_changed = False
 
@@ -165,7 +166,7 @@ async def update_book_with_exception(book: BookRequest):
 
 
 
-@router_v2.delete('/books/{book_id}')
+@router_v2.delete('/books/{book_id}' ,status_code=status.HTTP_204_NO_CONTENT)
 async def delete_book_with_exception(book_id: int = Path(gt=0 )):
     book_changed = False
 
