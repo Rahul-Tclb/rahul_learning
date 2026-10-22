@@ -8,6 +8,7 @@ from TodoApp import models
 from .database import engine, get_db
 
 # Create the 'todos' table if it does not exist
+models.Base.metadata.drop_all(bind=engine)
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Todo App")
