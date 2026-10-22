@@ -8,15 +8,33 @@ from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 from databricks.sdk import WorkspaceClient
 w = WorkspaceClient()  # Uses your configured Databricks authentication
-for wh in w.warehouses.list():
-    print(wh.name)  # Find your serverless warehouse
-wh = w.warehouses.get(dbutils.secrets.get( catalog='fast_api',schema= 'sql_alchemy',key= 'serverless_starter_warehouse'))
-HOST = wh.odbc_params.hostname
-HTTP_PATH = wh.odbc_params.path
+# for wh in w.warehouses.list():
+#     print(wh.name)  # Find your serverless warehouse
+# wh = w.warehouses.get(dbutils.secrets.get( catalog='fast_api',schema= 'sql_alchemy',key= 'serverless_starter_warehouse'))
+# HOST = wh.odbc_params.hostname
+# HTTP_PATH = wh.odbc_params.path
 
-host = HOST
-http_path = HTTP_PATH
-access_token = dbutils.secrets.get(    catalog="fast_api",    schema="sql_alchemy",    key="sql_aclhemy_access_token")
+# host = HOST
+# http_path = HTTP_PATH
+# access_token = dbutils.secrets.get(    catalog="fast_api",    schema="sql_alchemy",    key="sql_aclhemy_access_token")
+def read_uc_secret(full_name: str) -> str:
+    # full_name = "catalog.schema.secret"
+    resp = w.api_client.do(
+        "GET",
+        f"/api/2.1/unity-catalog/secrets/{full_name}",
+        query={"include_value": "true"},
+    )
+    return resp["effective_value"]
+
+catalog = "fast_api"
+schema = "sql_alchemy"
+
+access_token = read_uc_secret(f"{catalog}.{schema}.sql_aclhemy_access_token")
+warehouse_id = read_uc_secret(f"{catalog}.{schema}.serverless_starter_warehouse")
+
+wh = w.warehouses.get(warehouse_id)
+host = wh.odbc_params.hostname
+http_path = wh.odbc_params.path
 catalog = 'fast_api'
 schema = 'sql_alchemy'
 ##################################
