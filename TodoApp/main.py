@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy.orm import Session
 
-from .database import Base
+from .database import get_db
 from .models import Todos
 
 router = APIRouter(prefix="/todos", tags=["todos"])
@@ -36,7 +36,7 @@ class TodoResponse(BaseModel):
     response_model=TodoResponse,
     status_code=status.HTTP_201_CREATED,
 )
-def create_todo(payload: TodoCreate, db: Session = Depends(Base)):
+def create_todo(payload: TodoCreate, db: Session = Depends(get_db)):
     todo = Todos(**payload.model_dump())
     db.add(todo)
     db.commit()
@@ -45,12 +45,12 @@ def create_todo(payload: TodoCreate, db: Session = Depends(Base)):
 
 
 @router.get("", response_model=list[TodoResponse])
-def list_todos(db: Session = Depends(Base)):
+def list_todos(db: Session = Depends(get_db)):
     return db.query(Todos).order_by(Todos.id).all()
 
 
 @router.get("/{todo_id}", response_model=TodoResponse)
-def get_todo(todo_id: int, db: Session = Depends(Base)):
+def get_todo(todo_id: int, db: Session = Depends(get_db)):
     todo = db.query(Todos).filter(Todos.id == todo_id).first()
     if todo is None:
         raise HTTPException(status_code=404, detail="Todo not found")
@@ -61,7 +61,7 @@ def get_todo(todo_id: int, db: Session = Depends(Base)):
 def update_todo(
     todo_id: int,
     payload: TodoUpdate,
-    db: Session = Depends(Base),
+    db: Session = Depends(get_db),
 ):
     todo = db.query(Todos).filter(Todos.id == todo_id).first()
     if todo is None:
@@ -86,7 +86,7 @@ def update_todo(
 
 
 @router.delete("/{todo_id}")
-def delete_todo(todo_id: int, db: Session = Depends(Base)):
+def delete_todo(todo_id: int, db: Session = Depends(get_db)):
     todo = db.query(Todos).filter(Todos.id == todo_id).first()
     if todo is None:
         raise HTTPException(status_code=404, detail="Todo not found")

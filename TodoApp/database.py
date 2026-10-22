@@ -1,51 +1,55 @@
-# from sqlalchemy import create_engine
-# from sqlalchemy.orm import sessionmaker
-# from sqlalchemy.ext.declarative import declarative_base 
-
-
-# SQLALCHEMY_DATABASE_URL = 'sqlite:///./todos.db'
-# engine = create_engine(
-#   SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False} 
-# )
-
-
-# SessionLocal = sessionmaker(autocommit=False, autoflush=False,bind=engine)
-# Base = declarative_base()
-
+##################################
 import os
-from pathlib import Path
+from datetime import date, datetime, time, timedelta, timezone
+from decimal import Decimal
+from uuid import UUID
+import json
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base, sessionmaker
+from databricks.sdk import WorkspaceClient
+w = WorkspaceClient()  # Uses your configured Databricks authentication
+for wh in w.warehouses.list():
+    print(wh.name)  # Find your serverless warehouse
+wh = w.warehouses.get(dbutils.secrets.get( catalog='fast_api',schema= 'sql_alchemy',key= 'serverless_starter_warehouse'))
+HOST = wh.odbc_params.hostname
+HTTP_PATH = wh.odbc_params.path
+##################################
 
-# Local fallback. Set DATABASE_URL in the deployment environment
-# to use a configured, persistent database instead.
-DEFAULT_DB_FILE = Path(__file__).resolve().parents[1] / "todos.db"
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    f"sqlite:///{DEFAULT_DB_FILE.as_posix()}",
+
+##################################
+from databricks.sqlalchemy import TIMESTAMP, TINYINT, DatabricksVariant
+from sqlalchemy import (
+	BigInteger,      # BIGINT
+	Boolean,         # BOOLEAN
+	Column,
+	Date,            # DATE
+	DateTime,        # TIMESTAMP_NTZ
+	Integer,         # INTEGER
+	Numeric,         # DECIMAL
+	String,          # STRING
+	Time,            # STRING
+	Uuid,            # STRING
+	create_engine,
+	select,
+)
+from sqlalchemy.orm import DeclarativeBase, Session
+
+extra_connect_args = {
+	"_tls_verify_hostname": True,
+	"user_agent_entry": "PySQL Example Script",
+}
+
+
+engine = create_engine(
+	f"databricks://token:{access_token}@{host}?http_path={http_path}&catalog={catalog}&schema={schema}",
+	connect_args=extra_connect_args, echo=True,
 )
 
-connect_args = (
-    {"check_same_thread": False}
-    if DATABASE_URL.startswith("sqlite:")
-    else {}
-)
-
-engine = create_engine(DATABASE_URL, connect_args=connect_args)
-SessionLocal = sessionmaker(
-    bind=engine,
-    autocommit=False,
-    autoflush=False,
-)
-
-Base = declarative_base()
 
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+# def get_db():
+#     db = SessionLocal()
+#     try:
+#         yield db
+#     finally:
+#         db.close()
 
