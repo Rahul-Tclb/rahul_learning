@@ -2,3 +2,4 @@ fastapi
 uvicorn
 databricks-sqlalchemy
 sqlalchemy
+databricks-sdk
