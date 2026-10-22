@@ -4,6 +4,7 @@ from datetime import date, datetime, time, timedelta, timezone
 from decimal import Decimal
 from uuid import UUID
 import json
+from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 from databricks.sdk import WorkspaceClient
 w = WorkspaceClient()  # Uses your configured Databricks authentication
@@ -12,6 +13,12 @@ for wh in w.warehouses.list():
 wh = w.warehouses.get(dbutils.secrets.get( catalog='fast_api',schema= 'sql_alchemy',key= 'serverless_starter_warehouse'))
 HOST = wh.odbc_params.hostname
 HTTP_PATH = wh.odbc_params.path
+
+host = HOST
+http_path = HTTP_PATH
+access_token = dbutils.secrets.get(    catalog="fast_api",    schema="sql_alchemy",    key="sql_aclhemy_access_token")
+catalog = 'fast_api'
+schema = 'sql_alchemy'
 ##################################
 
 
@@ -44,12 +51,16 @@ engine = create_engine(
 	connect_args=extra_connect_args, echo=True,
 )
 
+SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
+class Base(DeclarativeBase):
+    pass
 
-# def get_db():
-#     db = SessionLocal()
-#     try:
-#         yield db
-#     finally:
-#         db.close()
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
+print('completed')
